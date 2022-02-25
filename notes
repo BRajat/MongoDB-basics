@@ -1,0 +1,161 @@
+MongoDB - notes.txt
+
+MongoDB stores data in BSON format which is faster has more data types and compact, but not human readable
+
+json is for viewing bson
+
+--
+Connecting to the database
+--
+
+COMMANDS-
+
+mongo "mongodb+srv://<username>:<password>@<cluster>.mongodb.net/admin"
+
+
+--
+Dumping, exporting and importing data
+--
+
+mongodump - get data in bson format
+mongoexport - stores json format of same data
+
+mongorestore - drops bson
+mongoimport - drops json
+
+COMMMANDS-
+
+mongodump --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"
+
+mongoexport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --collection=sales --out=sales.json
+
+mongorestore --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"  --drop dump
+
+mongoimport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --drop sales.json
+
+--
+Browsing Collections in Atlas
+--
+
+filter data in collections by querying in browser.
+
+--
+Querying data in mongo  cli-
+--
+
+connect to database and then query using below command.
+
+COMMANDS -
+
+show dbs
+
+use sample_training
+
+show collections
+
+-- filter commands
+db.zips.find({"state": "NY"})
+
+-- count commands
+db.zips.find({"state": "NY"}).count()
+
+-- filter on more fields
+db.zips.find({"state": "NY", "city": "ALBANY"})
+
+-- for easy reading
+db.zips.find({"state": "NY", "city": "ALBANY"}).pretty()
+
+-----
+connection:
+
+mongo "mongodb+srv://m001-student:m001-mongodb-basics@cluster0.fels2.mongodb.net/admin"
+
+--
+quiz question:
+
+
+Query Answer:
+[
+
+mongo "mongodb+srv://m001-student:m001-mongodb-basics@cluster0.fels2.mongodb.net/admin"
+
+use sample_training
+
+db.trips.find({"birth year":1961, "start station name":"Howard St & Centre S"}).pretty()
+
+]
+
+-----
+CRUD OPERATIONS on MongoDB 
+-----
+
+--
+Inserting New Documents - ObjectId
+--
+
+Every document has different "_id" field. 
+Inserting documents in Data Explorer
+Inserting documents using Mongo Shell-
+
+db.inspections.findOne();
+
+db.inspections.insert({
+      "_id" : ObjectId("56d61033a378eccde8a8354f"),
+      "id" : "10021-2015-ENFO",
+      "certificate_number" : 9278806,
+      "business_name" : "ATLIXCO DELI GROCERY INC.",
+      "date" : "Feb 20 2015",
+      "result" : "No Violation Issued",
+      "sector" : "Cigarette Retail Dealer - 127",
+      "address" : {
+              "city" : "RIDGEWOOD",
+              "zip" : 11385,
+              "street" : "MENAHAN ST",
+              "number" : 1712
+         }
+  })
+
+db.inspections.insert({
+      "id" : "10021-2015-ENFO",
+      "certificate_number" : 9278806,
+      "business_name" : "ATLIXCO DELI GROCERY INC.",
+      "date" : "Feb 20 2015",
+      "result" : "No Violation Issued",
+      "sector" : "Cigarette Retail Dealer - 127",
+      "address" : {
+              "city" : "RIDGEWOOD",
+              "zip" : 11385,
+              "street" : "MENAHAN ST",
+              "number" : 1712
+         }
+  })
+
+db.inspections.find({"id" : "10021-2015-ENFO", "certificate_number" : 9278806}).pretty()
+
+-------------
+UPDATE - from data explorer
+-------------
+
+quiz:
+
+
+mongo "mongodb+srv://m001-student:m001-mongodb-basics@cluster0.fels2.mongodb.net/admin"
+
+use sample_training
+
+db.zips.updateMany({"state":"NY","city":"NEW YORK"},{"$set":{"capital?":false}})
+
+db.zips.updateMany({"state":"NY","city":"ALBANY"},{"$set":{"capital?":true}})
+
+--------------
+MQL operators:
+---
+
+Update operators
+$inc, $set, $unset
+$eq, $neq
+$gt, $gte
+$lt, $lte
+
+
+
